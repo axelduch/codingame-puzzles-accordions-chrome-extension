@@ -17,6 +17,7 @@
         "https://www.codingame.com/*"
       ],
       "js": [
+        "libs/jquery-2.2.2.min.js",
         "src/inject/inject.js"
       ]
     }

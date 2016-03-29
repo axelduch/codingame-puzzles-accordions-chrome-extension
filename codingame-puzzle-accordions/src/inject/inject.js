@@ -25,7 +25,8 @@ chrome.extension.sendMessage({}, function(response) {
 
 			function activate () {
 				var puzzleSections = getPuzzleSections();
-				puzzleSections.map(attachToggler);
+
+				attachTogglers(puzzleSections);
 
 				persistentState = new PersistentState('codingame-puzzle-sections');
 
@@ -75,10 +76,17 @@ chrome.extension.sendMessage({}, function(response) {
 			}
 
 
+			function attachTogglers (puzzleSections) {
+				puzzleSections.forEach(attachToggler);
+			}
+
+
 			function attachToggler (element) {
 				var toggleListener = bindDOMEventCallback(toggle);
-				element.removeEventListener('click', toggleListener);
-				element.addEventListener('click', toggleListener);
+				var $element = $(element);
+
+				$element.off('click');
+				$element.on('click', toggleListener);
 			}
 
 
@@ -120,17 +128,17 @@ chrome.extension.sendMessage({}, function(response) {
 
 
 			function isVisible (element) {
-				return element.style.display !== 'none';
+				return $(element).is(':visible');
 			}
 
 
 			function show (element) {
-				element.style.display = 'inherit';
+				$(element).show(400);
 			}
 
 
 			function hide (element) {
-				element.style.display = 'none';
+				$(element).hide(400);
 			}
 
 			function PersistentState (name) {
